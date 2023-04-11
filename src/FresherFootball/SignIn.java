@@ -265,35 +265,6 @@ public class SignIn extends JPanel {
             
         }
     }
-
-    private static class TextBorder extends AbstractBorder {
-        private Color color;
-        private int thickness;
-
-        public TextBorder(Color color, int thickness) {
-            this.color = color;
-            this.thickness = thickness;
-        }
-
-        @Override
-        public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            Rectangle textBounds = c.getBounds();
-            g.setColor(color);
-            g.fillRect(textBounds.x - thickness, textBounds.y - thickness,
-                       textBounds.width + thickness * 2, textBounds.height + thickness * 2);
-        }
-
-        @Override
-        public Insets getBorderInsets(Component c) {
-            return new Insets(thickness, thickness, thickness, thickness);
-        }
-
-        @Override
-        public Insets getBorderInsets(Component c, Insets insets) {
-            insets.left = insets.top = insets.right = insets.bottom = thickness;
-            return insets;
-        }
-    }
 }
 
 
