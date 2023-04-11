@@ -22,7 +22,7 @@ public class LoadScreenPanel extends JPanel {
 
         //Create and add image
         ImageIcon imageIcon = new ImageIcon(getClass().getResource("/LoadScreen.png"));
-        Image image = imageIcon.getImage().getScaledInstance(screenDim.width/2-10, screenDim.height/2-10, Image.SCALE_SMOOTH); // scale the image to a preferred size
+        Image image = imageIcon.getImage().getScaledInstance(screenDim.width/2-10, screenDim.height/2-10, Image.SCALE_AREA_AVERAGING); // scale the image to a preferred size
         ImageIcon scaledIcon = new ImageIcon(image); // create a new ImageIcon object with the scaled image
         JLabel imageLabel = new JLabel(scaledIcon); // create a JLabel with the scaled ImageIcon
         imageLabel.setBounds(5, 5, screenDim.width/2-10, screenDim.height/2-10);
