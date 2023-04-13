@@ -169,7 +169,7 @@ public class SignIn extends JPanel {
             int height = getHeight();
 
             // Scale the font size based on the width of the frame
-            float fontSize = Math.max(height / 12f, 10f);
+            float fontSize = Math.max(height / 15f, 10f);
             title.setFont(title.getFont().deriveFont(fontSize));
 
             FontMetrics metrics = title.getFontMetrics(title.getFont());
