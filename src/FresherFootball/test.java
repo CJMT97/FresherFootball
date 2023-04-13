@@ -5,11 +5,14 @@ import java.sql.SQLException;
 import java.sql.Connection;
 
 public class test {
-    public static void main(String[] args) throws ClassNotFoundException, SQLException {
+    public static void main(String[] args) throws ClassNotFoundException{
+
+        Class.forName("org.postgresql.Driver");
+        
 
         String dbUrl = "jdbc:postgresql://cgames-db.cg6vhgtix6ra.ap-southeast-2.rds.amazonaws.com:5432/FresherFootball";
         String username = "postgres";
-        String password = "Ziggy@97R";
+        String password = "harrypotter17";
 
         try {
             Connection connection = DriverManager.getConnection(dbUrl, username, password);
@@ -20,7 +23,10 @@ public class test {
         }
         
 
-        // DBManager d = new DBManager();
+         DBManager d = new DBManager();
+         DBManager.setAccount("Da_Wolf2");
+         System.out.println(d.getAccount().getFirstName());
+        
 
     }
 }

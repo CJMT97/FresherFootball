@@ -1,17 +1,10 @@
 package FresherFootball;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.FontMetrics;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.GridBagLayout;
 import java.awt.Image;
-import java.awt.Insets;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -22,29 +15,21 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
-import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
-import javax.swing.SwingContainer;
-import javax.swing.border.AbstractBorder;
-import javax.swing.border.Border;
 
-public class SignIn extends JPanel {
-
-    private JFrame frame;
+public class SignIn extends JPanel implements Instances{
     private JLabel title, login;
     private JPanel signInPanel, containerPanel, titlePanel;
     private JTextField username, password;
     private FrameListener fl;
     private JButton submit, create;
 
-    public SignIn(Dimension screenDim, JFrame frame) {
-        this.frame = frame;
+    public SignIn(){
 
         // Set layout and color
         setLayout(null);
@@ -85,6 +70,7 @@ public class SignIn extends JPanel {
         this.login = login;
 
         // Add Logo label
+        System.out.println(getClass().getResource("/Logo.png"));
         ImageIcon imageIcon = new ImageIcon(getClass().getResource("/Logo.png"));
         Image image = imageIcon.getImage().getScaledInstance(400, 125, Image.SCALE_SMOOTH); // scale the image to a preferred size
         ImageIcon scaledIcon = new ImageIcon(image); // create a new ImageIcon object with the scaled image
@@ -262,7 +248,21 @@ public class SignIn extends JPanel {
 
         @Override
         public void actionPerformed(ActionEvent e) {
-            
+            if (e.getSource() == submit && !username.getText().equals("") && !password.getText().equals("")) {
+                DBManager.setAccount(username.getText());
+                if(dbManager.checkNotNull() && dbManager.checkPassword(password.getText())){
+                    System.out.println("Yes");
+                }else if(!dbManager.checkNotNull()){
+                    System.out.println("No account with username: " + username.getText());
+                }else if(!dbManager.checkPassword(password.getText())){
+                    System.out.println("Wrong pasword");
+                }
+                else{
+                    System.out.println("No");
+                }
+
+                dbManager.getAccount();
+            }
         }
     }
 }

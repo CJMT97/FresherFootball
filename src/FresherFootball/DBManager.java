@@ -1,38 +1,61 @@
 package FresherFootball;
 
-import java.awt.List;
-import java.beans.Statement;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 public class DBManager {
 
-    public DBManager() throws ClassNotFoundException {
+    private static String dbUrl, dbUsername, dbPassword;
+    private static Account account;
 
-        // Load the JDBC driver
-        Class.forName("/Users/charlietempleton/FootballApp/FresherFootball/src/postgresql-42.6.0.jar");
+    public DBManager() {
+        try {
+            Class.forName("org.postgresql.Driver");
 
-        // Establish a connection to the database
-        String url = "jdbc:postgresql://localhost:5432/postgres";
-        String user = "postgres";
-        String password = "Ziggy@97R";
+            dbUrl = "jdbc:postgresql://cgames-db.cg6vhgtix6ra.ap-southeast-2.rds.amazonaws.com:5432/FresherFootball";
+            dbUsername = "postgres";
+            dbPassword = "harrypotter17";
+        } catch (ClassNotFoundException e) {
+        }
+    }
 
-        String sql = "SELECT * FROM Scientist ORDER BY Scientist_Num";
+    public Account getAccount(){
+        return account;
+    }
+
+    public boolean checkNotNull(){
+        if(account.isEmpty()){
+            return false;
+        }
+        return true;
+    }
+
+    public boolean checkPassword(String password){
+        if(account.getPassword().equals(password) && !account.getPassword().equals("")){
+            return true;
+        }
+        return false;
+    }
+
+    public static void setAccount(){
+        account = null;
+    }
+
+    public static void setAccount(String username) {
+        String sql = "SELECT * FROM Account WHERE username IN ('" + username + "');";
 
         try (
-                Connection conn = DriverManager.getConnection(url, user, password);
+                Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
                 // create a statement to send to the database
                 PreparedStatement stmt = conn.prepareStatement(sql);) {
 
             // execute the query
             ResultSet rs = stmt.executeQuery();
 
-            // create a list to hold the scientists
-            ArrayList<Account> accounts = new ArrayList<>();
+            Account currAccount = new Account();
 
             // process the results of the query
             while (rs.next()) {
@@ -41,23 +64,24 @@ public class DBManager {
                 String accNum = rs.getString("Account_Num");
                 String firstName = rs.getString("First_Name");
                 String lastName = rs.getString("Last_Name");
-                String username = rs.getString("username");
-                String userPassword = rs.getString("password");
+                String user = rs.getString("username");
+                String userPassword = rs.getString("ACC_password");
 
                 // create a Account object
-                Account account = new Account(accNum, firstName, lastName, username, userPassword);
+                currAccount.setAccountNum(accNum);
+                currAccount.setFirstName(firstName);
+                currAccount.setLastName(lastName);
+                currAccount.setUsername(user);
+                currAccount.setPassword(userPassword);
 
-                // store the object in the list
-                accounts.add(account);
             }
 
-            // return the list
-            for(Account acc: accounts){
-            System.out.println(acc.getFirstName());
-            }
+            account = currAccount;
 
         } catch (SQLException ex) {
-            System.out.println("HI");
+            System.out.println("Error: " + ex.getMessage());
         }
+
     }
+
 }

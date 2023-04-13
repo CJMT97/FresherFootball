@@ -5,15 +5,11 @@ import java.awt.event.ComponentEvent;
 
 import javax.swing.JFrame;
 
-public class FrameManager {
+public class FrameManager implements Instances{
 
-    private JFrame frame;
-    private Dimension screenDim;
+    public FrameManager(){}
 
-    public FrameManager(Dimension screenDim){
-        this.screenDim = screenDim;
-
-        JFrame frame = new JFrame("Fresher Football");
+    public void setComponets(){
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(screenDim.width/2 + screenDim.width/4, screenDim.height/2 + screenDim.height/4));
         frame.setMinimumSize(new Dimension(500, 550));
@@ -21,7 +17,6 @@ public class FrameManager {
         frame.setLocation(screenDim.width / 2 - frame.getSize().width / 2, screenDim.height / 2 - frame.getSize().height / 2);
         frame.setVisible(true);
         System.out.println(frame.getWidth() + " " + frame.getHeight());
-        this.frame = frame;
     }
 
     public JFrame getFrame(){
@@ -29,7 +24,7 @@ public class FrameManager {
     }
 
     public void signIn(){
-        SignIn signInPanel = new SignIn(screenDim, frame);
+        SignIn signInPanel = new SignIn();
         clearFrame();
         frame.getContentPane().add(signInPanel);
         frame.getContentPane().repaint();
