@@ -175,7 +175,6 @@ public class SignIn extends JPanel implements Instances{
 
             // Get the width and height of the panel and the text height
             int pWidth = signInPanel.getWidth();
-            int pHeight = signInPanel.getHeight();
 
             // Set Login bounds
             login.setBounds(0, 130, pWidth, 50);
