@@ -67,5 +67,16 @@ public class FrameManager implements Instances{
      */
     public void clearFrame(){
         frame.getContentPane().removeAll();
+        frame.repaint();
+        frame.revalidate();
+    }
+
+    public void register(){
+        Register register = new Register();
+        frame.getContentPane().add(register);
+        frame.getContentPane().repaint();
+        frame.getContentPane().revalidate();
+        frame.pack();
+        register.getFl().componentResized(new ComponentEvent(frame, ComponentEvent.COMPONENT_RESIZED));
     }
 }

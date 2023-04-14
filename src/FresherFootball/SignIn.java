@@ -329,6 +329,10 @@ public class SignIn extends JPanel implements Instances{
 
                 dbManager.getAccount();
             }
+            if(e.getSource() == create){
+                frameManager.clearFrame();
+                frameManager.register();
+            }
         }
     }
 }
