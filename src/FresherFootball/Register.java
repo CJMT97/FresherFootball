@@ -487,7 +487,7 @@ public class Register extends JPanel implements Instances {
                 dbManager.getAccount();
             }
 
-            if(e.getSource() == next && !firstName.getText().equals("") && !lastName.getText().equals("")){
+            if(e.getSource() == next && isCompleted1()){
                 firstName.setVisible(false);
                 lastName.setVisible(false);
                 username.setVisible(true);
@@ -527,6 +527,58 @@ public class Register extends JPanel implements Instances {
                 frameManager.clearFrame();
                 frameManager.signIn();
             }
+            if(e.getSource() == create && isCompleted2() && passwordsMatch()){
+                dbManager.setupAccount(firstName.getText(), lastName.getText(), username.getText(), password.getText());
+                frameManager.clearFrame();
+                frameManager.signIn();
+            }
         }
+    }
+
+    /**
+     * <p>
+     * isCompleted1 method checks if the firstname and lastname text fields
+     * have been filled in 
+     * </p>
+     * @return true or false
+     */
+    public boolean isCompleted1(){
+        boolean fnEmpty = (!firstName.getText().equals("") && !firstName.getText().equals("Enter Firstname..."));
+        boolean lnEmpty = (!lastName.getText().equals("") && !lastName.getText().equals("Enter Lastname..."));
+        if(fnEmpty && lnEmpty){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * <p>
+     * isCompleted2 method checks if the username, password and confrim password text fields
+     * have been filled in
+     * </p>
+     * @return true or false
+     */
+    public boolean isCompleted2(){
+        boolean usEmpty = (!username.getText().equals("") && !username.getText().equals("Enter Username..."));
+        boolean psEmpty = (!password.getText().equals("") && !password.getText().equals("Enter Password..."));
+        boolean cpsEmpty = (!confirmPassword.getText().equals("") && !confirmPassword.getText().equals("Confirm Password..."));
+        if(usEmpty && psEmpty && cpsEmpty){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * <p>
+     * passwordsMatch method check if the text in password textfield matches the password in
+     * the confirm password textfield
+     * </p>
+     * @return true or false
+     */
+    public boolean passwordsMatch(){
+        if(password.getText().equals(confirmPassword.getText())){
+            return true;
+        }
+        return false;
     }
 }
