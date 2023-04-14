@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class DBManager {
 
@@ -22,25 +23,25 @@ public class DBManager {
         }
     }
 
-    public Account getAccount(){
+    public Account getAccount() {
         return account;
     }
 
-    public boolean checkNotNull(){
-        if(account.isEmpty()){
+    public boolean checkNotNull() {
+        if (account.isEmpty()) {
             return false;
         }
         return true;
     }
 
-    public boolean checkPassword(String password){
-        if(account.getPassword().equals(password) && !account.getPassword().equals("")){
+    public boolean checkPassword(String password) {
+        if (account.getPassword().equals(password) && !account.getPassword().equals("")) {
             return true;
         }
         return false;
     }
 
-    public static void setAccount(){
+    public static void setAccount() {
         account = null;
     }
 
@@ -81,7 +82,69 @@ public class DBManager {
         } catch (SQLException ex) {
             System.out.println("Error: " + ex.getMessage());
         }
+    }
 
+    public void setupAccount(String firstName, String lastName, String username, String password) {
+        int accNum = nextAccountNum();
+        try (
+                Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+                // create a statement to send to the database
+                PreparedStatement stmt = conn.prepareStatement(
+                        "insert into account (Account_Num, first_name, last_name, username, acc_password) values (?, ?, ?, ?, ?);");) {
+            stmt.setInt(1, accNum);
+            stmt.setString(2, firstName);
+            stmt.setString(3, lastName);
+            stmt.setString(4, username);
+            stmt.setString(5, password);
+            // execute the query
+            stmt.executeUpdate();
+
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+    }
+
+    public int nextAccountNum() {
+        String sql = "SELECT Account_Num FROM Account ORDER BY Account_Num;";
+
+        try (
+                Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+                // create a statement to send to the database
+                PreparedStatement stmt = conn.prepareStatement(sql);) {
+
+            // execute the query
+            ResultSet rs = stmt.executeQuery();
+
+            ArrayList<Integer> accNums = new ArrayList<Integer>();
+
+            // process the results of the query
+            while (rs.next()) {
+                // extract values from result columns
+                int accNum = rs.getInt("Account_Num");
+                accNums.add(accNum);
+            }
+
+            return getNumber(accNums);
+
+        } catch (SQLException ex) {
+            System.out.println("Error: " + ex.getMessage());
+            return 0;
+        }
+    }
+
+    public int getNumber(ArrayList<Integer> accNums) {
+        if (accNums.size() == 0) {
+            return 1000;
+        }
+        if (accNums.get(0) != 1000) {
+            return 1000;
+        }
+        for (int i = 1; i < accNums.size(); i++) {
+            if (!(accNums.get(i) == accNums.get(i - 1) + 1)) {
+                return accNums.get(i - 1) + 1;
+            }
+        }
+        return accNums.get(accNums.size() - 1) + 1;
     }
 
 }

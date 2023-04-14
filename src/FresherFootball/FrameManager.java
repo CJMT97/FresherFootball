@@ -25,7 +25,6 @@ public class FrameManager implements Instances{
 
     public void signIn(){
         SignIn signInPanel = new SignIn();
-        clearFrame();
         frame.getContentPane().add(signInPanel);
         frame.getContentPane().repaint();
         frame.getContentPane().revalidate();
