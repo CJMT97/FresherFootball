@@ -13,7 +13,6 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,6 +21,14 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+/**
+ * <p>
+ * SignIn class creates the GUI for signing in to an account for Fresher Football
+ * </p>
+ * 
+ * @author Charlie Templeton
+ */
+
 public class SignIn extends JPanel implements Instances{
     private JLabel title, login;
     private JPanel signInPanel, containerPanel, titlePanel;
@@ -29,6 +36,11 @@ public class SignIn extends JPanel implements Instances{
     private FrameListener fl;
     private JButton submit, create;
 
+    /**
+     * <p>
+     * The Constructor for SignIn class creates the GUI
+     * </p>
+     */
     public SignIn(){
 
         // Set layout and color
@@ -143,11 +155,22 @@ public class SignIn extends JPanel implements Instances{
         add(titlePanel);
         add(containerPanel);
     }
-
+    
+    /**
+     * <p>
+     * getFl method returns the framelistener for the current frame
+     * </p>
+     * @return fl Frame Listener for the Fresher Fottball Frame
+     */
     public FrameListener getFl() {
         return fl;
     }
 
+    /**
+     * <p>
+     * FrameListener class repaints the frame as the frame changes in size
+     * </p>
+     */
     public class FrameListener extends ComponentAdapter {
         public void componentResized(ComponentEvent e) {
             // Get the width and height of the frame and the text height
@@ -188,8 +211,18 @@ public class SignIn extends JPanel implements Instances{
         }
     }
 
+    /**
+     * <p>
+     * TextFieldListener class listens for if a textfield is selected or not
+     * </p>
+     */
     private class TextFieldListener implements FocusListener {
 
+        /**
+         * <p>
+         * focusGained method sets the textfield to null if not text has been added
+         * </p>
+         */
         @Override
         public void focusGained(FocusEvent e) {
             if (e.getSource() == username && username.getText().equals("Username...")) {
@@ -202,6 +235,12 @@ public class SignIn extends JPanel implements Instances{
             }
         }
 
+        /**
+         * <p>
+         * focusLost method sets the textfield text to default messages if no text has been added
+         * otherwise it leaves it as is
+         * </p>
+         */
         @Override
         public void focusLost(FocusEvent e) {
             if (e.getSource() == username && username.getText().equals("")) {
@@ -216,10 +255,24 @@ public class SignIn extends JPanel implements Instances{
 
     }
 
+    /**
+     * <p>
+     * ButtonListener class has mouse listener and action listener,
+     * mouse listener check if mouse is over the buttons, action lister checks if
+     * the button is pressed
+     * </p>
+     */
     private class ButtonListener implements MouseListener, ActionListener {
         public void mouseClicked(MouseEvent e) {
         }
 
+        /**
+         * <p>
+         * mouseEntered method sets background color of buttons if mouse 
+         * is over the button
+         * </p>
+         * @param e The action event triggering this method
+         */
         public void mouseEntered(MouseEvent e) {
             if (e.getSource() == create) {
                 create.setBackground(new Color(220, 220, 220));
@@ -229,6 +282,13 @@ public class SignIn extends JPanel implements Instances{
             }
         }
 
+        /**
+         * <p>
+         * mouseExited method sets background color of buttons if mouse 
+         * is no longer over the button
+         * </p>
+         * @param e The action event triggering this method
+         */
         public void mouseExited(MouseEvent e) {
             if (e.getSource() == create) {
                 create.setBackground(new Color(235, 235, 235));
@@ -245,6 +305,13 @@ public class SignIn extends JPanel implements Instances{
         public void mouseReleased(MouseEvent e) {
         }
 
+        /**
+         * <p>
+         * actionPerformed method listens for if a button is clicked and then
+         * performs actions base on which button was pressed
+         * </p>
+         * @param e The action event triggering this method
+         */
         @Override
         public void actionPerformed(ActionEvent e) {
             if (e.getSource() == submit && !username.getText().equals("") && !password.getText().equals("")) {
