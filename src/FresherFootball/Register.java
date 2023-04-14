@@ -486,7 +486,6 @@ public class Register extends JPanel implements Instances {
 
                 dbManager.getAccount();
             }
-
             if(e.getSource() == next && isCompleted1()){
                 firstName.setVisible(false);
                 lastName.setVisible(false);
