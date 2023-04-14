@@ -7,15 +7,27 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+/**
+ * <p>
+ * DBManger class is responsible for getting and inserting information from and too 
+ * the FresherFootball database
+ * </p>
+ * @author Charlie Templeton
+ */
 public class DBManager {
 
+    // Datafields
     private static String dbUrl, dbUsername, dbPassword;
     private static Account account;
 
+    /**
+     * <p>
+     * DBManager constructor initalises datafields and the JDBC driver
+     * </p>
+     */
     public DBManager() {
         try {
             Class.forName("org.postgresql.Driver");
-
             dbUrl = "jdbc:postgresql://cgames-db.cg6vhgtix6ra.ap-southeast-2.rds.amazonaws.com:5432/FresherFootball";
             dbUsername = "postgres";
             dbPassword = "harrypotter17";
@@ -23,10 +35,23 @@ public class DBManager {
         }
     }
 
+    /**
+     * <p>
+     * getAccount method returns the current account
+     * </p>
+     * @return account The current account
+     */
     public Account getAccount() {
         return account;
     }
 
+    /**
+     * <p>
+     * checkNotNull method returns true if the account is not empty 
+     * aand false if it is empty
+     * </p>
+     * @return true or false
+     */
     public boolean checkNotNull() {
         if (account.isEmpty()) {
             return false;
@@ -34,6 +59,13 @@ public class DBManager {
         return true;
     }
 
+    /**
+     * <p>
+     * checkPassword method makes sure the password supplied matches the password in the data base
+     * </p>
+     * @param password The password enter by the user
+     * @return true or false
+     */
     public boolean checkPassword(String password) {
         if (account.getPassword().equals(password) && !account.getPassword().equals("")) {
             return true;
@@ -41,10 +73,21 @@ public class DBManager {
         return false;
     }
 
+    /**
+     * <p>
+     * setAccount method sets the account datafield 
+     * </p>
+     */
     public static void setAccount() {
         account = null;
     }
 
+    /**
+     * <p>
+     * setAccount method sets the account data field using the username provied by the user
+     * </p>
+     * @param username The username provided by the user
+     */
     public static void setAccount(String username) {
         String sql = "SELECT * FROM Account WHERE username IN ('" + username + "');";
 
@@ -84,6 +127,15 @@ public class DBManager {
         }
     }
 
+    /**
+     * <p>
+     * setupAccount method creates a new account and adds it to the data base 
+     * </p>
+     * @param firstName The firstname provided by the user
+     * @param lastName The lastname provided by the user
+     * @param username The username provided by the user
+     * @param password The password provided by the user
+     */
     public void setupAccount(String firstName, String lastName, String username, String password) {
         int accNum = nextAccountNum();
         try (
@@ -104,6 +156,13 @@ public class DBManager {
         }
     }
 
+    /**
+     * <p>
+     * nextAccountNum returns the next account number that is avalible to be used in order
+     * from smallest to largest
+     * </p>
+     * @return next Avaliable account number 
+     */
     public int nextAccountNum() {
         String sql = "SELECT Account_Num FROM Account ORDER BY Account_Num;";
 
@@ -132,6 +191,14 @@ public class DBManager {
         }
     }
 
+    /**
+     * <p>
+     * getNumber method returns the next number in the arraylist in order from smallest 
+     * to largest
+     * </p>
+     * @param accNums The ArrayList of current account numbers
+     * @return The next avalible account number
+     */
     public int getNumber(ArrayList<Integer> accNums) {
         if (accNums.size() == 0) {
             return 1000;
