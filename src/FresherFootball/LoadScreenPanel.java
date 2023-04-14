@@ -4,12 +4,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.Toolkit;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-
+/**
+ * <p>
+ * LoadScreenPanel class creates the GUI for the loading screen 
+ * <p>
+ * @author Charlie Templeton
+ */
 public class LoadScreenPanel extends JPanel {
     public LoadScreenPanel(){
         //Get Screen dimension
