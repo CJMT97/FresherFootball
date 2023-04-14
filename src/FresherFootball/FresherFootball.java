@@ -1,9 +1,20 @@
 package FresherFootball;
 
 import java.awt.Cursor;
-
 import javax.swing.JDialog;
 
+/**
+ * <p>
+ * Fresher Football is a app for footballers who want to track there progress
+ * can add trainings, teams, stats and exercises
+ * </p>
+ * 
+ * <p>
+ * The main method sets and displays the Fresher Football logo while the application loads
+ * </p>
+ * 
+ * @author Charlie Templeton
+ */
 public class FresherFootball implements Instances{
 
     public static void main(String[] args) {
@@ -37,6 +48,11 @@ public class FresherFootball implements Instances{
 
     }
 
+    /**
+     * <p>
+     * Creates the GUI for the Fresher Football app
+     * <p>
+     */
     public static void createGUI() {
                 frameManager.setComponets();
                 frameManager.signIn();
