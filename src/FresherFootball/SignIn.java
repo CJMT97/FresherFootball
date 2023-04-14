@@ -317,7 +317,7 @@ public class SignIn extends JPanel implements Instances{
             if (e.getSource() == submit && !username.getText().equals("") && !password.getText().equals("")) {
                 DBManager.setAccount(username.getText());
                 if(dbManager.checkNotNull() && dbManager.checkPassword(password.getText())){
-                    System.out.println("Yes");
+                    frameManager.homePage();
                 }else if(!dbManager.checkNotNull()){
                     System.out.println("No account with username: " + username.getText());
                 }else if(!dbManager.checkPassword(password.getText())){

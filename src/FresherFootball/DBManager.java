@@ -9,9 +9,11 @@ import java.util.ArrayList;
 
 /**
  * <p>
- * DBManger class is responsible for getting and inserting information from and too 
+ * DBManger class is responsible for getting and inserting information from and
+ * too
  * the FresherFootball database
  * </p>
+ * 
  * @author Charlie Templeton
  */
 public class DBManager {
@@ -39,6 +41,7 @@ public class DBManager {
      * <p>
      * getAccount method returns the current account
      * </p>
+     * 
      * @return account The current account
      */
     public Account getAccount() {
@@ -47,9 +50,10 @@ public class DBManager {
 
     /**
      * <p>
-     * checkNotNull method returns true if the account is not empty 
+     * checkNotNull method returns true if the account is not empty
      * aand false if it is empty
      * </p>
+     * 
      * @return true or false
      */
     public boolean checkNotNull() {
@@ -61,8 +65,10 @@ public class DBManager {
 
     /**
      * <p>
-     * checkPassword method makes sure the password supplied matches the password in the data base
+     * checkPassword method makes sure the password supplied matches the password in
+     * the data base
      * </p>
+     * 
      * @param password The password enter by the user
      * @return true or false
      */
@@ -75,7 +81,7 @@ public class DBManager {
 
     /**
      * <p>
-     * setAccount method sets the account datafield 
+     * setAccount method sets the account datafield
      * </p>
      */
     public static void setAccount() {
@@ -84,8 +90,10 @@ public class DBManager {
 
     /**
      * <p>
-     * setAccount method sets the account data field using the username provied by the user
+     * setAccount method sets the account data field using the username provied by
+     * the user
      * </p>
+     * 
      * @param username The username provided by the user
      */
     public static void setAccount(String username) {
@@ -105,11 +113,13 @@ public class DBManager {
             while (rs.next()) {
 
                 // extract values from result columns
-                String accNum = rs.getString("Account_Num");
+                int accNum = rs.getInt("Account_Num");
                 String firstName = rs.getString("First_Name");
                 String lastName = rs.getString("Last_Name");
                 String user = rs.getString("username");
                 String userPassword = rs.getString("ACC_password");
+                int age = rs.getInt("User_Age");
+                String country = rs.getString("Country");
 
                 // create a Account object
                 currAccount.setAccountNum(accNum);
@@ -117,6 +127,8 @@ public class DBManager {
                 currAccount.setLastName(lastName);
                 currAccount.setUsername(user);
                 currAccount.setPassword(userPassword);
+                currAccount.setAge(age);
+                currAccount.setCountry(country);
 
             }
 
@@ -129,25 +141,28 @@ public class DBManager {
 
     /**
      * <p>
-     * setupAccount method creates a new account and adds it to the data base 
+     * setupAccount method creates a new account and adds it to the data base
      * </p>
+     * 
      * @param firstName The firstname provided by the user
-     * @param lastName The lastname provided by the user
-     * @param username The username provided by the user
-     * @param password The password provided by the user
+     * @param lastName  The lastname provided by the user
+     * @param username  The username provided by the user
+     * @param password  The password provided by the user
      */
-    public void setupAccount(String firstName, String lastName, String username, String password) {
+    public void setupAccount(String firstName, String lastName, String username, String password, String age, String country) {
         int accNum = nextAccountNum();
         try (
                 Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
                 // create a statement to send to the database
                 PreparedStatement stmt = conn.prepareStatement(
-                        "insert into account (Account_Num, first_name, last_name, username, acc_password) values (?, ?, ?, ?, ?);");) {
+                        "insert into account (Account_Num, first_name, last_name, username, acc_password, User_Age, Country) values (?, ?, ?, ?, ?, ?, ?);");) {
             stmt.setInt(1, accNum);
             stmt.setString(2, firstName);
             stmt.setString(3, lastName);
             stmt.setString(4, username);
             stmt.setString(5, password);
+            stmt.setInt(6, Integer.parseInt(age));
+            stmt.setString(7, country);
             // execute the query
             stmt.executeUpdate();
 
@@ -158,10 +173,12 @@ public class DBManager {
 
     /**
      * <p>
-     * nextAccountNum returns the next account number that is avalible to be used in order
+     * nextAccountNum returns the next account number that is avalible to be used in
+     * order
      * from smallest to largest
      * </p>
-     * @return next Avaliable account number 
+     * 
+     * @return next Avaliable account number
      */
     public int nextAccountNum() {
         String sql = "SELECT Account_Num FROM Account ORDER BY Account_Num;";
@@ -193,9 +210,11 @@ public class DBManager {
 
     /**
      * <p>
-     * getNumber method returns the next number in the arraylist in order from smallest 
+     * getNumber method returns the next number in the arraylist in order from
+     * smallest
      * to largest
      * </p>
+     * 
      * @param accNums The ArrayList of current account numbers
      * @return The next avalible account number
      */

@@ -9,7 +9,8 @@ package FresherFootball;
 public class Account {
 
     // Datafield
-    private String accountNum, firstName, lastName, username, password;
+    private int accountNum, age;
+    private String firstName, lastName, username, password, country;
 
     // Default Constructor
     public Account(){}
@@ -20,7 +21,7 @@ public class Account {
      * </p>
      * @param accountNum The accountNum supplied by the user
      */
-    public void setAccountNum(String accountNum){
+    public void setAccountNum(int accountNum){
         this.accountNum = accountNum;
     }
 
@@ -66,11 +67,31 @@ public class Account {
 
     /**
      * <p>
+     * setAge method set the password
+     * </p>
+     * @param age The age supplied by the user
+     */
+    public void setAge(int age){
+        this.age = age;
+    }
+
+    /**
+     * <p>
+     * setCountry method set the password
+     * </p>
+     * @param country The country supplied by the user
+     */
+    public void setCountry(String country){
+        this.country = country;
+    }
+
+    /**
+     * <p>
      * getAccountNum method returns the account number
      * </p>
      * @return accountNum The account number
      */
-    public String getAccountNum(){
+    public int getAccountNum(){
         return accountNum;
     }
 
@@ -115,6 +136,26 @@ public class Account {
             return "";
         }
         return password;
+    }
+
+    /**
+     * <p>
+     * getAge method returns the password
+     * </p>
+     * @return age
+     */
+    public int getAge(){
+        return age;
+    }
+
+    /**
+     * <p>
+     * getCountry method returns the password
+     * </p>
+     * @return country
+     */
+    public String getCountry(){
+        return country;
     }
 
     /**

@@ -29,7 +29,7 @@ public class FrameManager implements Instances{
     public void setComponets(){
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setPreferredSize(new Dimension(screenDim.width/2 + screenDim.width/4, screenDim.height/2 + screenDim.height/4));
-        frame.setMinimumSize(new Dimension(500, 550));
+        frame.setMinimumSize(new Dimension(600, 550));
         frame.pack();
         frame.setLocation(screenDim.width / 2 - frame.getSize().width / 2, screenDim.height / 2 - frame.getSize().height / 2);
         frame.setVisible(true);
@@ -78,5 +78,15 @@ public class FrameManager implements Instances{
         frame.getContentPane().revalidate();
         frame.pack();
         register.getFl().componentResized(new ComponentEvent(frame, ComponentEvent.COMPONENT_RESIZED));
+    }
+
+    public void homePage(){
+        FFHome ffh = new FFHome();
+        clearFrame();
+        frame.getContentPane().add(ffh);
+        frame.getContentPane().repaint();
+        frame.getContentPane().revalidate();
+        frame.pack();
+        ffh.getFl().componentResized(new ComponentEvent(frame, ComponentEvent.COMPONENT_RESIZED));
     }
 }

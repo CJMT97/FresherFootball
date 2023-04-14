@@ -23,9 +23,9 @@ import javax.swing.SwingConstants;
 
 public class Register extends JPanel implements Instances {
 
-    private JLabel title, register, fnLabel, lnLabel, usLabel, psLabel, cpsLabel;
+    private JLabel title, register, fnLabel, lnLabel, usLabel, psLabel, cpsLabel, aLabel, cLabel;
     private JPanel registerPanel, containerPanel, titlePanel;
-    private JTextField username, password, firstName, lastName, confirmPassword;
+    private JTextField username, password, firstName, lastName, confirmPassword, age, country;
     private FrameListener fl;
     private JButton submit, create, next, previous, login;
 
@@ -90,6 +90,18 @@ public class Register extends JPanel implements Instances {
         lnLabel.setFont(new Font("Arial", Font.BOLD, 15));
         this.lnLabel = lnLabel;
 
+        // Add Age Label
+        JLabel aLabel = new JLabel();
+        aLabel.setText("Age");
+        aLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        this.aLabel = aLabel;
+
+        // Add Country Label
+        JLabel cLabel = new JLabel();
+        cLabel.setText("Country");
+        cLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        this.cLabel = cLabel;
+
         // Add usLabel Label
         JLabel usLabel = new JLabel();
         usLabel.setText("Username");
@@ -124,6 +136,20 @@ public class Register extends JPanel implements Instances {
         lastName.setFont(new Font("Arial", Font.BOLD, 20));
         lastName.setText("Enter Lastname...");
         this.lastName = lastName;
+
+        // Add Age JTextField
+        JTextField age = new JTextField();
+        age.setForeground(new Color(200, 200, 200));
+        age.setFont(new Font("Arial", Font.BOLD, 20));
+        age.setText("Enter Age...");
+        this.age = age;
+
+        // Add Country JTextField
+        JTextField country = new JTextField();
+        country.setForeground(new Color(200, 200, 200));
+        country.setFont(new Font("Arial", Font.BOLD, 20));
+        country.setText("Enter Country...");
+        this.country = country;
 
         // Add Username JTextField
         JTextField username = new JTextField();
@@ -219,6 +245,8 @@ public class Register extends JPanel implements Instances {
         registerPanel.add(logo);
         registerPanel.add(firstName);
         registerPanel.add(lastName);
+        registerPanel.add(age);
+        registerPanel.add(country);
         registerPanel.add(username);
         registerPanel.add(password);
         registerPanel.add(confirmPassword);
@@ -229,6 +257,8 @@ public class Register extends JPanel implements Instances {
         registerPanel.add(fnLabel);
         registerPanel.add(lnLabel);
         registerPanel.add(usLabel);
+        registerPanel.add(aLabel);
+        registerPanel.add(cLabel);
         registerPanel.add(psLabel);
         registerPanel.add(cpsLabel);
 
@@ -238,6 +268,8 @@ public class Register extends JPanel implements Instances {
         TextFieldListener tl = new TextFieldListener();
         firstName.addFocusListener(tl);
         lastName.addFocusListener(tl);
+        age.addFocusListener(tl);
+        country.addFocusListener(tl);
         username.addFocusListener(tl);
         password.addFocusListener(tl);
         confirmPassword.addFocusListener(tl);
@@ -303,8 +335,10 @@ public class Register extends JPanel implements Instances {
             register.setHorizontalAlignment(SwingConstants.CENTER);
 
             // Set TextField, button and Label bounds
-            firstName.setBounds(50, 225, 400, 50);
-            lastName.setBounds(50, 315, 400, 50);
+            firstName.setBounds(50, 225, 195, 50);
+            lastName.setBounds(255, 225, 195, 50);
+            age.setBounds(50, 315, 195, 50);
+            country.setBounds(255, 315, 195, 50);
             username.setBounds(50, 225, 400, 50);
             password.setBounds(50, 315, 195, 50);
             confirmPassword.setBounds(255, 315, 195, 50);
@@ -315,7 +349,9 @@ public class Register extends JPanel implements Instances {
             create.setBounds(295, 400, 150, 50);
 
             fnLabel.setBounds(55, 210, 100, 15);
-            lnLabel.setBounds(55, 300, 100,15);
+            lnLabel.setBounds(260, 210, 100,15);
+            aLabel.setBounds(55, 300, 100, 15);
+            cLabel.setBounds(260, 300, 100, 15);
             usLabel.setBounds(55, 210, 100, 15);
             psLabel.setBounds(55, 300, 100,15);
             cpsLabel.setBounds(260, 300, 150, 15);
@@ -357,6 +393,14 @@ public class Register extends JPanel implements Instances {
                 confirmPassword.setText("");
                 confirmPassword.setForeground(Color.black);
             }
+            if (e.getSource() == age && age.getText().equals("Enter Age...")) {
+                age.setText("");
+                age.setForeground(Color.black);
+            }
+            if (e.getSource() == country && country.getText().equals("Enter Country...")) {
+                country.setText("");
+                country.setForeground(Color.black);
+            }
         }
 
         /**
@@ -387,6 +431,14 @@ public class Register extends JPanel implements Instances {
             if (e.getSource() == confirmPassword && confirmPassword.getText().equals("")) {
                 confirmPassword.setForeground(new Color(200, 200, 200));
                 confirmPassword.setText("Confirm Password...");
+            }
+            if (e.getSource() == age && age.getText().equals("")) {
+                age.setForeground(new Color(200, 200, 200));
+                age.setText("Enter Age...");
+            }
+            if (e.getSource() == country && country.getText().equals("")) {
+                country.setForeground(new Color(200, 200, 200));
+                country.setText("Enter Country...");
             }
         }
 
@@ -489,12 +541,16 @@ public class Register extends JPanel implements Instances {
             if(e.getSource() == next && isCompleted1()){
                 firstName.setVisible(false);
                 lastName.setVisible(false);
+                age.setVisible(false);
+                country.setVisible(false);
                 username.setVisible(true);
                 password.setVisible(true);
                 confirmPassword.setVisible(true);
 
                 fnLabel.setVisible(false);
                 lnLabel.setVisible(false);
+                aLabel.setVisible(false);
+                cLabel.setVisible(false);
                 usLabel.setVisible(true);
                 psLabel.setVisible(true);
                 cpsLabel.setVisible(true);
@@ -507,12 +563,16 @@ public class Register extends JPanel implements Instances {
             if(e.getSource() == previous){
                 firstName.setVisible(true);
                 lastName.setVisible(true);
+                age.setVisible(true);
+                country.setVisible(true);
                 username.setVisible(false);
                 password.setVisible(false);
                 confirmPassword.setVisible(false);
 
                 fnLabel.setVisible(true);
                 lnLabel.setVisible(true);
+                aLabel.setVisible(true);
+                cLabel.setVisible(true);
                 usLabel.setVisible(false);
                 psLabel.setVisible(false);
                 cpsLabel.setVisible(false);
@@ -526,8 +586,9 @@ public class Register extends JPanel implements Instances {
                 frameManager.clearFrame();
                 frameManager.signIn();
             }
-            if(e.getSource() == create && isCompleted2() && passwordsMatch()){
-                dbManager.setupAccount(firstName.getText(), lastName.getText(), username.getText(), password.getText());
+            if(e.getSource() == create && isCompleted2() && passwordsMatch() && checkAge()){
+                
+                dbManager.setupAccount(firstName.getText(), lastName.getText(), username.getText(), password.getText(), age.getText(), country.getText());
                 frameManager.clearFrame();
                 frameManager.signIn();
             }
@@ -544,10 +605,21 @@ public class Register extends JPanel implements Instances {
     public boolean isCompleted1(){
         boolean fnEmpty = (!firstName.getText().equals("") && !firstName.getText().equals("Enter Firstname..."));
         boolean lnEmpty = (!lastName.getText().equals("") && !lastName.getText().equals("Enter Lastname..."));
-        if(fnEmpty && lnEmpty){
+        boolean aEmpty = (!age.getText().equals("") && !age.getText().equals("Enter Age..."));
+        boolean cEmpty = (!country.getText().equals("") && !country.getText().equals("Enter Country..."));
+        if(fnEmpty && lnEmpty && aEmpty && cEmpty){
             return true;
         }
         return false;
+    }
+
+    public boolean checkAge(){
+        try{
+            int x = Integer.parseInt(age.getText());
+            return true;
+        }catch(Exception e){
+            return false;
+        }
     }
 
     /**
