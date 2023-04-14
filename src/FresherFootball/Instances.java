@@ -2,8 +2,14 @@ package FresherFootball;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
-
 import javax.swing.JFrame;
+
+/**
+ * <p>
+ * Instances interface cotains all the shared classes and variables for Fresher Football
+ * </p>
+ * @author Charlie Templeton
+ */
 
 public interface Instances {
     Dimension screenDim = Toolkit.getDefaultToolkit().getScreenSize();
