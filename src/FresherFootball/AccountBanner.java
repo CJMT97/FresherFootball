@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Image;
-import java.awt.event.ComponentEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -20,6 +19,7 @@ public class AccountBanner extends JPanel implements Instances {
     private ImageIcon imageIcon;
     private Image image;
     private FFHome ffh;
+    private boolean activePanel = false;
 
     public AccountBanner(FFHome ffh) {
         this.ffh = ffh;
@@ -83,9 +83,7 @@ public class AccountBanner extends JPanel implements Instances {
 
         @Override
         public void mouseClicked(MouseEvent e) {
-            if (e.getSource() == imageLabel) {
-                ffh.addDetails();
-            }
+            
         }
 
         @Override
@@ -94,6 +92,15 @@ public class AccountBanner extends JPanel implements Instances {
 
         @Override
         public void mouseReleased(MouseEvent e) {
+            if (e.getSource() == imageLabel && !activePanel) {
+                ffh.addDetails();
+                activePanel = true;
+                return;
+            }
+            else if (e.getSource() == imageLabel && activePanel) {
+                ffh.dropDetails();
+                activePanel = false;
+            }
         }
 
         @Override

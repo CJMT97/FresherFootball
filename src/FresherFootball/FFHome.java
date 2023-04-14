@@ -2,18 +2,9 @@ package FresherFootball;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
-import java.awt.FontMetrics;
-import java.awt.Graphics;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.MouseListener;
-
-import javax.swing.BorderFactory;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-
-import org.w3c.dom.events.MouseEvent;
 
 /**
  * <p>
@@ -56,7 +47,13 @@ public class FFHome extends JPanel implements Instances {
         revalidate();
         getFl().componentResized(new ComponentEvent(frame, ComponentEvent.COMPONENT_RESIZED));
         accountDetailsPanel.getFl().componentResized(new ComponentEvent(frame, ComponentEvent.COMPONENT_RESIZED));
-        
+    }
+
+    public void dropDetails() {
+        remove(accountDetailsPanel);
+        repaint();
+        revalidate();
+        getFl().componentResized(new ComponentEvent(frame, ComponentEvent.COMPONENT_RESIZED));
     }
 
     public class FrameListener extends ComponentAdapter {

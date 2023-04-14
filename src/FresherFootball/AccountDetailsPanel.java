@@ -3,7 +3,6 @@ package FresherFootball;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
-import java.awt.FontMetrics;
 import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
@@ -100,9 +99,6 @@ public class AccountDetailsPanel extends JPanel implements Instances {
             // Scale the font size based on the width of the frame
             float fontSize = Math.max(width / 15f, 10f);
             name.setFont(name.getFont().deriveFont(fontSize));
-
-            FontMetrics metrics = name.getFontMetrics(name.getFont());
-            int textHeight = metrics.getHeight();
 
             username.setBounds(height / 2, 65, panel.getWidth()-height/2, panel.getHeight() / 8);
             accNumber.setBounds(height / 2, 95, panel.getWidth()-height/2, panel.getHeight() / 8);
