@@ -1,11 +1,27 @@
 package FresherFootball;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.awt.image.RenderedImage;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
+import java.io.ByteArrayInputStream;
 
 /**
  * <p>
@@ -16,7 +32,7 @@ import java.util.ArrayList;
  * 
  * @author Charlie Templeton
  */
-public class DBManager {
+public class DBManager implements Instances{
 
     // Datafields
     private static String dbUrl, dbUsername, dbPassword;
@@ -30,9 +46,9 @@ public class DBManager {
     public DBManager() {
         try {
             Class.forName("org.postgresql.Driver");
-            dbUrl = "jdbc:postgresql://cgames-db.cg6vhgtix6ra.ap-southeast-2.rds.amazonaws.com:5432/FresherFootball";
+            dbUrl = "jdbc:postgresql://localhost:5432/FresherFootball";
             dbUsername = "postgres";
-            dbPassword = "harrypotter17";
+            dbPassword = "Blanket10687";
         } catch (ClassNotFoundException e) {
         }
     }
@@ -118,7 +134,7 @@ public class DBManager {
                 String lastName = rs.getString("Last_Name");
                 String user = rs.getString("username");
                 String userPassword = rs.getString("ACC_password");
-                int age = rs.getInt("User_Age");
+                String age = rs.getString("Born_On");
                 String country = rs.getString("Country");
 
                 // create a Account object
@@ -127,7 +143,7 @@ public class DBManager {
                 currAccount.setLastName(lastName);
                 currAccount.setUsername(user);
                 currAccount.setPassword(userPassword);
-                currAccount.setAge(age);
+                currAccount.setDOB(age);
                 currAccount.setCountry(country);
 
             }
@@ -149,25 +165,80 @@ public class DBManager {
      * @param username  The username provided by the user
      * @param password  The password provided by the user
      */
-    public void setupAccount(String firstName, String lastName, String username, String password, String age, String country) {
+    public void setupAccount(String firstName, String lastName, String username, String password, String age,
+            String country) {
         int accNum = nextAccountNum();
         try (
                 Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
                 // create a statement to send to the database
-                PreparedStatement stmt = conn.prepareStatement(
-                        "insert into account (Account_Num, first_name, last_name, username, acc_password, User_Age, Country) values (?, ?, ?, ?, ?, ?, ?);");) {
+                PreparedStatement stmt = conn.prepareStatement("insert into account (Account_Num, first_name, last_name, username, acc_password, Born_On, Country) values (?, ?, ?, ?, ?, ?, ?);");) {
+            
+            java.sql.Date date = java.sql.Date.valueOf(age);
             stmt.setInt(1, accNum);
             stmt.setString(2, firstName);
             stmt.setString(3, lastName);
             stmt.setString(4, username);
             stmt.setString(5, password);
-            stmt.setInt(6, Integer.parseInt(age));
+            stmt.setDate(6, date);
             stmt.setString(7, country);
             // execute the query
             stmt.executeUpdate();
 
         } catch (SQLException ex) {
             System.out.println("Error: " + ex.getMessage());
+        }
+    }
+
+    public void addImage(int id, ImageIcon icon) {
+
+        try {
+            Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);
+    
+            // Get the BufferedImage from the ImageIcon
+            Image image = icon.getImage();
+            BufferedImage bufferedImage = new BufferedImage(image.getWidth(null), image.getHeight(null), BufferedImage.TYPE_INT_RGB);
+            Graphics2D g2 = bufferedImage.createGraphics();
+            g2.drawImage(image, null, null);
+    
+            // Write the BufferedImage to a byte array
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            ImageIO.write(bufferedImage, "jpg", baos);
+            byte[] imageData = baos.toByteArray();
+    
+            // Insert the data into the database
+            String sql = "INSERT INTO Account_Image (Account_Num, Image_Data) VALUES (?, ?)";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, id);
+            statement.setBytes(2, imageData);
+            statement.executeUpdate();
+            statement.close();
+            conn.close();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+    }
+
+    public BufferedImage getImage(int accNum) {
+
+        String sql = "SELECT image_data FROM Account_Image WHERE Account_Num = ?";
+        try (
+                Connection conn = DriverManager.getConnection(dbUrl, dbUsername, dbPassword);) {
+
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setInt(1, accNum);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                byte[] imageData = rs.getBytes("image_data");
+                InputStream in = new ByteArrayInputStream(imageData);
+                BufferedImage image = ImageIO.read(in);
+                return image;
+            }
+
+            return null;
+        } catch (SQLException | IOException ex) {
+            System.out.println("Error: " + ex.getMessage());
+            return null;
         }
     }
 

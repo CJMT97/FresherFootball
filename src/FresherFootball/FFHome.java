@@ -2,9 +2,16 @@ package FresherFootball;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.FontMetrics;
+import java.awt.Insets;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+
+import javax.swing.BorderFactory;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
 
 /**
  * <p>
@@ -19,6 +26,10 @@ public class FFHome extends JPanel implements Instances {
     private AccountBanner accountBanner;
     private FrameListener fl;
     private AccountDetailsPanel accountDetailsPanel;
+    private MenuBar menuBar;
+    private JMenu menu;
+    private boolean activeDetails  = false;
+        
 
     // Default constructor
     public FFHome() {
@@ -32,16 +43,26 @@ public class FFHome extends JPanel implements Instances {
         AccountBanner accountBanner = new AccountBanner(this);
         this.accountBanner = accountBanner;
 
+        AccountDetailsPanel accountDetailsPanel = new AccountDetailsPanel(this);
+        this.accountDetailsPanel = accountDetailsPanel;
+
+        MenuBar menuBar = new MenuBar();
+        this.menuBar = menuBar;
+
         FrameListener fl = new FrameListener();
         this.fl = fl;
         frame.addComponentListener(fl);
 
         add(accountBanner);
+        add(menuBar);
+    }
+
+    public Boolean checkActive(){
+        return activeDetails;
     }
 
     public void addDetails() {
-        AccountDetailsPanel accountDetailsPanel = new AccountDetailsPanel();
-        this.accountDetailsPanel = accountDetailsPanel;
+        activeDetails  = true;
         add(accountDetailsPanel);
         repaint();
         revalidate();
@@ -50,6 +71,7 @@ public class FFHome extends JPanel implements Instances {
     }
 
     public void dropDetails() {
+        activeDetails = false;
         remove(accountDetailsPanel);
         repaint();
         revalidate();
@@ -66,9 +88,16 @@ public class FFHome extends JPanel implements Instances {
             accountBanner.setImageBounds(height);
             accountBanner.setTitle(width, height);
 
+            long startTime = System.currentTimeMillis();
             if (accountDetailsPanel != null) {
-                accountDetailsPanel.setBounds((width-600)/2, (height-400)/2, 600, 400);
+                accountDetailsPanel.setBounds((width - 600) / 2,
+                        ((height / 8 + 20)) + ((height - (height / 8 + 20)) - 400) / 2, 600, 400);
             }
+            long endTime = System.currentTimeMillis();
+            long elapsedTime = endTime - startTime;
+            System.out.println("Time elapsed 3: " + elapsedTime + " milliseconds");
+
+            menuBar.setBounds(0, height/8, width, 26);
         }
     }
 

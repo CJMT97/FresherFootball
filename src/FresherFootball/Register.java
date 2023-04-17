@@ -23,9 +23,9 @@ import javax.swing.SwingConstants;
 
 public class Register extends JPanel implements Instances {
 
-    private JLabel title, register, fnLabel, lnLabel, usLabel, psLabel, cpsLabel, aLabel, cLabel;
+    private JLabel title, register, fnLabel, lnLabel, usLabel, psLabel, cpsLabel, aLabel, cLabel, slash1, slash2;
     private JPanel registerPanel, containerPanel, titlePanel;
-    private JTextField username, password, firstName, lastName, confirmPassword, age, country;
+    private JTextField username, password, firstName, lastName, confirmPassword, day, month, year, country;
     private FrameListener fl;
     private JButton submit, create, next, previous, login;
 
@@ -92,14 +92,27 @@ public class Register extends JPanel implements Instances {
 
         // Add Age Label
         JLabel aLabel = new JLabel();
-        aLabel.setText("Age");
+        aLabel.setText("Date of Birth");
         aLabel.setFont(new Font("Arial", Font.BOLD, 15));
         this.aLabel = aLabel;
+
+        // Add slash1 Label
+        JLabel slash1 = new JLabel();
+        slash1.setText("/");
+        slash1.setFont(new Font("Arial", Font.BOLD, 30));
+        this.slash1 = slash1;
+
+        // Add slash2 Label
+        JLabel slash2 = new JLabel();
+        slash2.setText("/");
+        slash2.setFont(new Font("Arial", Font.BOLD, 30));
+        this.slash2 = slash2;
 
         // Add Country Label
         JLabel cLabel = new JLabel();
         cLabel.setText("Country");
         cLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        cLabel.setVisible(false);
         this.cLabel = cLabel;
 
         // Add usLabel Label
@@ -138,11 +151,28 @@ public class Register extends JPanel implements Instances {
         this.lastName = lastName;
 
         // Add Age JTextField
-        JTextField age = new JTextField();
-        age.setForeground(new Color(200, 200, 200));
-        age.setFont(new Font("Arial", Font.BOLD, 20));
-        age.setText("Enter Age...");
-        this.age = age;
+        JTextField day = new JTextField();
+        day.setForeground(new Color(200, 200, 200));
+        day.setFont(new Font("Arial", Font.BOLD, 20));
+        day.setText("00");
+        day.setHorizontalAlignment(SwingConstants.CENTER);
+        this.day = day;
+
+        // Add Age JTextField
+        JTextField month = new JTextField();
+        month.setForeground(new Color(200, 200, 200));
+        month.setFont(new Font("Arial", Font.BOLD, 20));
+        month.setText("00");
+        month.setHorizontalAlignment(SwingConstants.CENTER);
+        this.month = month;
+
+        // Add Age JTextField
+        JTextField year = new JTextField();
+        year.setForeground(new Color(200, 200, 200));
+        year.setFont(new Font("Arial", Font.BOLD, 20));
+        year.setText("0000");
+        year.setHorizontalAlignment(SwingConstants.CENTER);
+        this.year = year;
 
         // Add Country JTextField
         JTextField country = new JTextField();
@@ -245,7 +275,11 @@ public class Register extends JPanel implements Instances {
         registerPanel.add(logo);
         registerPanel.add(firstName);
         registerPanel.add(lastName);
-        registerPanel.add(age);
+        registerPanel.add(day);
+        registerPanel.add(slash1);
+        registerPanel.add(month);
+        registerPanel.add(slash2);
+        registerPanel.add(year);
         registerPanel.add(country);
         registerPanel.add(username);
         registerPanel.add(password);
@@ -268,7 +302,9 @@ public class Register extends JPanel implements Instances {
         TextFieldListener tl = new TextFieldListener();
         firstName.addFocusListener(tl);
         lastName.addFocusListener(tl);
-        age.addFocusListener(tl);
+        day.addFocusListener(tl);
+        month.addFocusListener(tl);
+        year.addFocusListener(tl);
         country.addFocusListener(tl);
         username.addFocusListener(tl);
         password.addFocusListener(tl);
@@ -337,9 +373,13 @@ public class Register extends JPanel implements Instances {
             // Set TextField, button and Label bounds
             firstName.setBounds(50, 225, 195, 50);
             lastName.setBounds(255, 225, 195, 50);
-            age.setBounds(50, 315, 195, 50);
-            country.setBounds(255, 315, 195, 50);
-            username.setBounds(50, 225, 400, 50);
+            day.setBounds(50, 315, 75, 50);
+            slash1.setBounds(145, 315, 10, 50);
+            month.setBounds(175, 315, 75, 50);
+            slash2.setBounds(270, 315, 10, 50);
+            year.setBounds(300, 315, 150, 50);
+            country.setBounds(255, 225, 195, 50);
+            username.setBounds(50, 225, 195, 50);
             password.setBounds(50, 315, 195, 50);
             confirmPassword.setBounds(255, 315, 195, 50);
 
@@ -351,7 +391,7 @@ public class Register extends JPanel implements Instances {
             fnLabel.setBounds(55, 210, 100, 15);
             lnLabel.setBounds(260, 210, 100,15);
             aLabel.setBounds(55, 300, 100, 15);
-            cLabel.setBounds(260, 300, 100, 15);
+            cLabel.setBounds(260, 210, 100, 15);
             usLabel.setBounds(55, 210, 100, 15);
             psLabel.setBounds(55, 300, 100,15);
             cpsLabel.setBounds(260, 300, 150, 15);
@@ -393,9 +433,17 @@ public class Register extends JPanel implements Instances {
                 confirmPassword.setText("");
                 confirmPassword.setForeground(Color.black);
             }
-            if (e.getSource() == age && age.getText().equals("Enter Age...")) {
-                age.setText("");
-                age.setForeground(Color.black);
+            if (e.getSource() == day && day.getText().equals("00")) {
+                day.setText("");
+                day.setForeground(Color.black);
+            }
+            if (e.getSource() == month && month.getText().equals("00")) {
+                month.setText("");
+                month.setForeground(Color.black);
+            }
+            if (e.getSource() == year && year.getText().equals("0000")) {
+                year.setText("");
+                year.setForeground(Color.black);
             }
             if (e.getSource() == country && country.getText().equals("Enter Country...")) {
                 country.setText("");
@@ -432,9 +480,17 @@ public class Register extends JPanel implements Instances {
                 confirmPassword.setForeground(new Color(200, 200, 200));
                 confirmPassword.setText("Confirm Password...");
             }
-            if (e.getSource() == age && age.getText().equals("")) {
-                age.setForeground(new Color(200, 200, 200));
-                age.setText("Enter Age...");
+            if (e.getSource() == day && day.getText().equals("")) {
+                day.setForeground(new Color(200, 200, 200));
+                day.setText("00");
+            }
+            if (e.getSource() == month && month.getText().equals("")) {
+                month.setForeground(new Color(200, 200, 200));
+                month.setText("00");
+            }
+            if (e.getSource() == year && year.getText().equals("")) {
+                year.setForeground(new Color(200, 200, 200));
+                year.setText("0000");
             }
             if (e.getSource() == country && country.getText().equals("")) {
                 country.setForeground(new Color(200, 200, 200));
@@ -541,8 +597,10 @@ public class Register extends JPanel implements Instances {
             if(e.getSource() == next && isCompleted1()){
                 firstName.setVisible(false);
                 lastName.setVisible(false);
-                age.setVisible(false);
-                country.setVisible(false);
+                day.setVisible(false);
+                month.setVisible(false);
+                year.setVisible(false);
+                country.setVisible(true);
                 username.setVisible(true);
                 password.setVisible(true);
                 confirmPassword.setVisible(true);
@@ -550,7 +608,7 @@ public class Register extends JPanel implements Instances {
                 fnLabel.setVisible(false);
                 lnLabel.setVisible(false);
                 aLabel.setVisible(false);
-                cLabel.setVisible(false);
+                cLabel.setVisible(true);
                 usLabel.setVisible(true);
                 psLabel.setVisible(true);
                 cpsLabel.setVisible(true);
@@ -563,8 +621,10 @@ public class Register extends JPanel implements Instances {
             if(e.getSource() == previous){
                 firstName.setVisible(true);
                 lastName.setVisible(true);
-                age.setVisible(true);
-                country.setVisible(true);
+                day.setVisible(true);
+                month.setVisible(true);
+                year.setVisible(true);
+                country.setVisible(false);
                 username.setVisible(false);
                 password.setVisible(false);
                 confirmPassword.setVisible(false);
@@ -572,7 +632,7 @@ public class Register extends JPanel implements Instances {
                 fnLabel.setVisible(true);
                 lnLabel.setVisible(true);
                 aLabel.setVisible(true);
-                cLabel.setVisible(true);
+                cLabel.setVisible(false);
                 usLabel.setVisible(false);
                 psLabel.setVisible(false);
                 cpsLabel.setVisible(false);
@@ -587,11 +647,22 @@ public class Register extends JPanel implements Instances {
                 frameManager.signIn();
             }
             if(e.getSource() == create && isCompleted2() && passwordsMatch() && checkAge()){
-                
-                dbManager.setupAccount(firstName.getText(), lastName.getText(), username.getText(), password.getText(), age.getText(), country.getText());
+                String date = year.getText() + "-" + month.getText() + "-" + day.getText();
+                dbManager.setupAccount(firstName.getText(), lastName.getText(), username.getText(), password.getText(), date, country.getText());
                 frameManager.clearFrame();
                 frameManager.signIn();
             }
+        }
+    }
+
+    public boolean checkAge(){
+        try{
+            int x = Integer.parseInt(day.getText());
+            int y = Integer.parseInt(month.getText());
+            int z = Integer.parseInt(year.getText());
+            return true;
+        }catch(Exception e){
+            return false;
         }
     }
 
@@ -605,22 +676,16 @@ public class Register extends JPanel implements Instances {
     public boolean isCompleted1(){
         boolean fnEmpty = (!firstName.getText().equals("") && !firstName.getText().equals("Enter Firstname..."));
         boolean lnEmpty = (!lastName.getText().equals("") && !lastName.getText().equals("Enter Lastname..."));
-        boolean aEmpty = (!age.getText().equals("") && !age.getText().equals("Enter Age..."));
-        boolean cEmpty = (!country.getText().equals("") && !country.getText().equals("Enter Country..."));
-        if(fnEmpty && lnEmpty && aEmpty && cEmpty){
+        boolean dEmpty = (!day.getText().equals("") && !day.getText().equals("00"));
+        boolean mEmpty = (!month.getText().equals("") && !month.getText().equals("00"));
+        boolean yEmpty = (!year.getText().equals("") && !year.getText().equals("00"));
+        if(fnEmpty && lnEmpty && dEmpty && mEmpty && yEmpty){
             return true;
         }
         return false;
     }
 
-    public boolean checkAge(){
-        try{
-            int x = Integer.parseInt(age.getText());
-            return true;
-        }catch(Exception e){
-            return false;
-        }
-    }
+    
 
     /**
      * <p>
@@ -631,9 +696,10 @@ public class Register extends JPanel implements Instances {
      */
     public boolean isCompleted2(){
         boolean usEmpty = (!username.getText().equals("") && !username.getText().equals("Enter Username..."));
+        boolean cEmpty = (!country.getText().equals("") && !country.getText().equals("Enter Country..."));
         boolean psEmpty = (!password.getText().equals("") && !password.getText().equals("Enter Password..."));
         boolean cpsEmpty = (!confirmPassword.getText().equals("") && !confirmPassword.getText().equals("Confirm Password..."));
-        if(usEmpty && psEmpty && cpsEmpty){
+        if(usEmpty && cEmpty && psEmpty && cpsEmpty){
             return true;
         }
         return false;
