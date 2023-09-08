@@ -1,4 +1,4 @@
-package FresherFootball;
+package FresherFootballApp;
 
 import java.awt.Color;
 import java.awt.Font;

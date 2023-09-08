@@ -1,4 +1,4 @@
-package FresherFootball;
+package FresherFootballApp;
 
 import java.awt.Cursor;
 import javax.swing.JDialog;

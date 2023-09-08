@@ -1,4 +1,4 @@
-package FresherFootball;
+package FresherFootballApp;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
