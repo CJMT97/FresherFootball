@@ -50,6 +50,7 @@ public class DBManager implements Instances{
             dbUsername = "postgres";
             dbPassword = "Blanket10687";
         } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 
@@ -73,7 +74,7 @@ public class DBManager implements Instances{
      * @return true or false
      */
     public boolean checkNotNull() {
-        if (account.isEmpty()) {
+        if (account == null) {
             return false;
         }
         return true;
@@ -151,7 +152,7 @@ public class DBManager implements Instances{
             account = currAccount;
 
         } catch (SQLException ex) {
-            System.out.println("Error: " + ex.getMessage());
+            System.out.println("Error: " + ex.getMessage() + "#");
         }
     }
 

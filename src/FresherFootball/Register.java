@@ -70,7 +70,6 @@ public class Register extends JPanel implements Instances {
         this.register = register;
 
         // Add Logo label
-        System.out.println(getClass().getResource("/Logo.png"));
         ImageIcon imageIcon = new ImageIcon(getClass().getResource("/Logo.png"));
         Image image = imageIcon.getImage().getScaledInstance(400, 125, Image.SCALE_SMOOTH); // scale the image to a
                                                                                             // preferred size
@@ -617,6 +616,8 @@ public class Register extends JPanel implements Instances {
                 next.setVisible(false);
                 previous.setVisible(true);
                 create.setVisible(true);
+                slash1.setVisible(false);
+                slash2.setVisible(false);
             }
             if(e.getSource() == previous){
                 firstName.setVisible(true);
@@ -641,6 +642,8 @@ public class Register extends JPanel implements Instances {
                 next.setVisible(true);
                 previous.setVisible(false);
                 create.setVisible(false);
+                slash1.setVisible(true);
+                slash2.setVisible(true);
             }
             if(e.getSource() == login){
                 frameManager.clearFrame();
